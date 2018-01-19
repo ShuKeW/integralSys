@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.skw.integralsys.datepicker.WheelVerticalViewForYear
+        android:id="@+id/year"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        app:layout_widthPercent="34%" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/year"
+        android:background="@color/lineColor" />
+
+    <com.skw.integralsys.datepicker.WheelVerticalViewForYear
+        android:id="@+id/month"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/line1"
+        android:paddingBottom="15dp"
+        app:layout_widthPercent="33%" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/month"
+        android:background="@color/lineColor" />
+
+    <com.skw.integralsys.datepicker.WheelVerticalViewForYear
+        android:id="@+id/day"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/line2"
+        android:paddingBottom="15dp"
+        app:layout_widthPercent="33%" />
+</android.support.percent.PercentRelativeLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp40"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="时间" />
+
+    <TextView
+        android:layout_width="@dimen/dp1"
+        android:layout_height="match_parent"
+        android:background="@color/lineColor" />
+
+    <TextView
+        android:id="@+id/joinTime"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="事项" />
+
+    <TextView
+        android:layout_width="@dimen/dp1"
+        android:layout_height="match_parent"
+        android:background="@color/lineColor" />
+
+    <TextView
+        android:id="@+id/totalIntegral"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="积分" />
+
+</LinearLayout>

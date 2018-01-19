@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.skw.integralsys.activity.MainActivity">
+
+    <RelativeLayout style="@style/titleBar">
+
+        <TextView
+            style="@style/title"
+            android:text="@string/homeTiele" />
+
+        <ImageView
+            android:id="@+id/more"
+            style="@style/more"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:background="@color/bgColor">
+
+        <LinearLayout
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp32"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/dp9"
+            android:layout_marginLeft="@dimen/dp9"
+            android:layout_marginRight="@dimen/dp9"
+            android:layout_marginTop="@dimen/dp9"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
+                android:background="@mipmap/search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp4"
+                android:layout_toRightOf="@id/search_icon"
+                android:text="搜索"
+                android:textColor="@color/subTitleColor"
+                android:textSize="@dimen/sp14" />
+        </LinearLayout>
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/name"
+            android:textColor="@color/tabTitleColor"
+            android:textSize="@dimen/sp15" />
+
+        <TextView
+            android:layout_width="@dimen/dp1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp4"
+            android:layout_marginTop="@dimen/dp4"
+            android:background="@color/lineColor" />
+
+        <RelativeLayout
+            android:id="@+id/joinDate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/joinDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/joinDate"
+                android:textColor="@color/tabTitleColor"
+                android:textSize="@dimen/sp15" />
+
+            <ImageView
+                android:id="@+id/orderJoinDate"
+                android:layout_width="@dimen/dp10.5"
+                android:layout_height="@dimen/dp17"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp1"
+                android:layout_toRightOf="@id/joinDateText"
+                android:background="@mipmap/arrow_order_desc"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="@dimen/dp1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp4"
+            android:layout_marginTop="@dimen/dp4"
+            android:background="@color/lineColor" />
+
+        <RelativeLayout
+            android:id="@+id/totalIntegral"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/totalIntegralText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/integralTotal"
+                android:textColor="@color/tabTitleColor"
+                android:textSize="@dimen/sp15" />
+
+            <ImageView
+                android:id="@+id/ordertotalIntegral"
+                android:layout_width="@dimen/dp10.5"
+                android:layout_height="@dimen/dp17"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp1"
+                android:layout_toRightOf="@id/totalIntegralText"
+                android:background="@mipmap/arrow_order_desc"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp1"
+        android:background="@color/lineColor" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMemberList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

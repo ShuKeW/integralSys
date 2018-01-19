@@ -1,0 +1,97 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:8172118857373657485",
+      "lastPropertyId": "9:5618526230669919008",
+      "name": "Members",
+      "properties": [
+        {
+          "id": "1:7501054410910437583",
+          "name": "id"
+        },
+        {
+          "id": "2:4787284840700426229",
+          "name": "cardId"
+        },
+        {
+          "id": "3:103445850220360298",
+          "name": "name"
+        },
+        {
+          "id": "4:7872735217734658441",
+          "name": "phoneNumber"
+        },
+        {
+          "id": "5:3130511576103768930",
+          "name": "carNumber"
+        },
+        {
+          "id": "6:1432222580273671448",
+          "name": "LTotalNumber"
+        },
+        {
+          "id": "7:5086858035412491537",
+          "name": "totalIntegral"
+        },
+        {
+          "id": "8:7571454348227940857",
+          "name": "createTime"
+        },
+        {
+          "id": "9:5618526230669919008",
+          "name": "updateTime"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:2367441157656800473",
+      "lastPropertyId": "7:2707293959100146012",
+      "name": "Integral",
+      "properties": [
+        {
+          "id": "1:36098280027246394",
+          "name": "id"
+        },
+        {
+          "id": "3:6232410081257514283",
+          "name": "LNumber"
+        },
+        {
+          "id": "4:8816593469980194704",
+          "name": "integral"
+        },
+        {
+          "id": "5:2457516187291389872",
+          "name": "createTime"
+        },
+        {
+          "id": "6:5420094488100657703",
+          "name": "updateTime"
+        },
+        {
+          "id": "7:2707293959100146012",
+          "indexId": "1:4306680675668294329",
+          "name": "membersToOneId"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:2367441157656800473",
+  "lastIndexId": "1:4306680675668294329",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    3162248540171429163
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

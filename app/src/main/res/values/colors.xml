@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00c08d</color>
+    <color name="colorPrimaryDark">#00c08d</color>
+    <color name="colorAccent">#00c08d</color>
+
+    <color name="mainColor">#00c08d</color>
+    <color name="mainColorDark">#85f9da</color>
+    <color name="bgColor">#ebebeb</color>
+    <color name="titleColor">#525252</color>
+    <color name="subTitleColor">#999999</color>
+    <color name="lineColor">#dfdfdf</color>
+    <color name="tabTitleColor">#777777</color>
+    <color name="white">#ffffff</color>
+    <color name="color_dcdcdc">#dcdcdc</color>
+    <color name="color_da5a5a5">#a5a5a5</color>
+    <color name="color_727272">#727272</color>
+</resources>

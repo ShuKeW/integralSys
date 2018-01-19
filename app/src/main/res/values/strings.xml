@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">中油西营VIP</string>
+    <string name="homeTiele">中油西营VIP</string>
+    <string name="joinDate">入会时间</string>
+    <string name="joinDate2">入会时间：</string>
+    <string name="joinDateLength2">入会时长：</string>
+    <string name="integral">总积分</string>
+    <string name="integralTotal">总积分</string>
+    <string name="integralTotal2">总积分：</string>
+    <string name="sava">保存</string>
+    <string name="cardNumber2">卡\u3000号：</string>
+    <string name="name">姓名</string>
+    <string name="name2">姓\u3000名：</string>
+    <string name="carNumber2">车牌号：</string>
+    <string name="phoneNumber2">电\u3000话：</string>
+    <string name="date2">日\u3000期：</string>
+    <string name="lNumber2">加油量：</string>
+    <string name="lNumberTotal2">总油量：</string>
+    <string name="detail">详细信息</string>
+    <string name="basisMsg">基本信息</string>
+    <string name="integralMsg">积分信息</string>
+    <string name="addMember">添加会员</string>
+    <string name="theImport">导入</string>
+    <string name="theExport">导出</string>
+    <string name="lNumberHint">单位（L）</string>
+
+    <string name="date_picker_title">选择日期</string>
+</resources>
