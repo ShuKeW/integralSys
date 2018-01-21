@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp40"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/lTime"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/sp16" />
+
+    <TextView
+        android:id="@+id/lNumber"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/sp16" />
+
+    <TextView
+        android:id="@+id/integralNumber"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/sp16" />
+
+</LinearLayout>

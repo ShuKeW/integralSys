@@ -1,10 +1,19 @@
 package com.skw.integralsys.activity;
 
+import java.util.List;
+
+import com.skw.integralsys.App;
+import com.skw.integralsys.R;
+import com.skw.integralsys.adapter.MemberListAdapter;
+import com.skw.integralsys.db.Members;
+import com.skw.integralsys.db.Members_;
+import com.skw.integralsys.decoration.DividerLinearItemDecoration;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,32 +23,33 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.skw.integralsys.App;
-import com.skw.integralsys.R;
-import com.skw.integralsys.adapter.MemberListAdapter;
-import com.skw.integralsys.db.Members;
-import com.skw.integralsys.db.Members_;
-import com.skw.integralsys.decoration.DividerLinearItemDecoration;
-
-import java.util.List;
-
 import io.objectbox.Box;
 import io.objectbox.query.Query;
 import io.objectbox.query.QueryBuilder;
 
-public class MainActivity extends Activity implements View.OnClickListener {
-    private PopupWindow popupWindow;
-    private ImageView orderJoinDate;
-    private ImageView orderTotalIntegral;
-    private static final int desc = -1;
-    private static final int asc = 1;
-    private int order;
-    private int pageCount = 20;
-    private int pageNumber = 0;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-    private MemberListAdapter adapter;
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
+    private PopupWindow popupWindow;
+
+    private ImageView orderJoinDate;
+
+    private ImageView orderTotalIntegral;
+
+    private static final int desc = -1;
+
+    private static final int asc = 1;
+
+    private int order;
+
+    private int pageCount = 20;
+
+    private int pageNumber = 0;
+
+    private RecyclerView recyclerView;
+
+    private LinearLayoutManager layoutManager;
+
+    private MemberListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +71,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DividerLinearItemDecoration(Color.parseColor("#dfdfdf"), getResources().getDimensionPixelSize(R.dimen.dp1), Color.parseColor("#dfdfdf"), getResources().getDimensionPixelSize(R.dimen.dp1)));
+        recyclerView.addItemDecoration(new DividerLinearItemDecoration(Color.parseColor("#dfdfdf"), getResources().getDimensionPixelSize(R.dimen.dp1), Color.parseColor("#dfdfdf"),
+                getResources().getDimensionPixelSize(R.dimen.dp1)));
         adapter = new MemberListAdapter(getApplicationContext(), null);
         recyclerView.setAdapter(adapter);
         more.setOnClickListener(this);
@@ -69,7 +80,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         joinDate.setOnClickListener(this);
         totalIntegral.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {

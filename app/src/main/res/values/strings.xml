@@ -4,7 +4,8 @@
     <string name="joinDate">入会时间</string>
     <string name="joinDate2">入会时间：</string>
     <string name="joinDateLength2">入会时长：</string>
-    <string name="integral">总积分</string>
+    <string name="integral">积分</string>
+    <string name="integral2">积\u3000分：</string>
     <string name="integralTotal">总积分</string>
     <string name="integralTotal2">总积分：</string>
     <string name="sava">保存</string>
@@ -13,7 +14,9 @@
     <string name="name2">姓\u3000名：</string>
     <string name="carNumber2">车牌号：</string>
     <string name="phoneNumber2">电\u3000话：</string>
+    <string name="date">日期</string>
     <string name="date2">日\u3000期：</string>
+    <string name="lNumber">加油量</string>
     <string name="lNumber2">加油量：</string>
     <string name="lNumberTotal2">总油量：</string>
     <string name="detail">详细信息</string>
@@ -23,6 +26,12 @@
     <string name="theImport">导入</string>
     <string name="theExport">导出</string>
     <string name="lNumberHint">单位（L）</string>
+    <string name="delete">删除</string>
 
     <string name="date_picker_title">选择日期</string>
+
+    <string name="hit">提示</string>
+    <string name="sureDele">确认删除吗？</string>
+    <string name="sOk">确认</string>
+    <string name="sCancel">取消</string>
 </resources>

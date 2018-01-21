@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,11 +17,13 @@ import android.widget.Toast;
 
 import com.skw.integralsys.App;
 import com.skw.integralsys.R;
+import com.skw.integralsys.constants.Constants;
 import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.utils.DatePickerUtil;
 import com.skw.integralsys.utils.DateUtil;
+import com.skw.integralsys.utils.Utils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,13 +36,17 @@ import io.objectbox.Box;
  * @类描述 一句话描述 你的类
  */
 
-public class AddMemberActivity extends Activity implements View.OnClickListener, DatePicker4YearDialog.onDateListener, DialogInterface.OnDismissListener {
+public class AddMemberActivity extends FragmentActivity implements View.OnClickListener, DatePicker4YearDialog.onDateListener, DialogInterface.OnDismissListener {
+
     private EditText cardId, name, carNumber, phoneNumber, LNumber;
+
     private TextView createTime;
+
     private Date choiceCreateTime;
 
     public static void intent(Context context) {
         Intent intent = new Intent(context, AddMemberActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -116,18 +123,9 @@ public class AddMemberActivity extends Activity implements View.OnClickListener,
         }
 
         Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
-        delayFinish();
+        Utils.delayFinish(this, Constants.delayFinishTime);
     }
 
-    private void delayFinish() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AddMemberActivity.this.finish();
-            }
-        }, 300);
-    }
 
     @Override
     public void dateFinishYear(Calendar c, int type) {

@@ -13,10 +13,10 @@ import com.skw.integralsys.fragment.MemIntegralMsgFragment;
  * @类描述 一句话描述 你的类
  */
 
-public class MemDetailAdapter extends FragmentPagerAdapter {
+public class MemDetailVpAdapter extends FragmentPagerAdapter {
     private long MId;
 
-    public MemDetailAdapter(FragmentManager fm, long MId) {
+    public MemDetailVpAdapter(FragmentManager fm, long MId) {
         super(fm);
         this.MId = MId;
     }

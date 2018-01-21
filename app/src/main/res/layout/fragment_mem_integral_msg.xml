@@ -4,4 +4,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/date"
+            android:textColor="@color/tabTitleColor"
+            android:textSize="@dimen/sp15" />
+
+        <TextView
+            android:layout_width="@dimen/dp1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp4"
+            android:layout_marginTop="@dimen/dp4"
+            android:background="@color/lineColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/lNumber"
+            android:textColor="@color/tabTitleColor"
+            android:textSize="@dimen/sp15" />
+
+        <TextView
+            android:layout_width="@dimen/dp1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp4"
+            android:layout_marginTop="@dimen/dp4"
+            android:background="@color/lineColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/integral"
+            android:textColor="@color/tabTitleColor"
+            android:textSize="@dimen/sp15" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp1"
+        android:background="@color/lineColor" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvIntegralList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

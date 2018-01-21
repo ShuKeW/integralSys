@@ -1,6 +1,7 @@
 package com.skw.integralsys.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,7 +15,8 @@ public class DateUtil {
         if (date == null) {
             return "";
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYYMMDD");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         return dateFormat.format(date);
     }
+
 }

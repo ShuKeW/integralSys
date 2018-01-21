@@ -1,226 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bgColor"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp12"
+        android:layout_marginRight="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp12"
+        android:elevation="@dimen/dp100"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        card_view:cardBackgroundColor="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/cardNumber2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-
-        <EditText
-            android:id="@+id/cardId"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/selector_input_edit"
-            android:gravity="center_vertical"
-            android:inputType="number"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <LinearLayout
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
+
+                <TextView
+                    android:id="@+id/cardIdText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/cardNumber2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/cardId"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:layout_toRightOf="@id/cardIdText"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp12"
+                    android:background="@mipmap/edit" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
+
+                <TextView
+                    android:id="@+id/nameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/name2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:layout_toRightOf="@id/nameText"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp12"
+                    android:background="@mipmap/edit" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
+
+                <TextView
+                    android:id="@+id/carNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/carNumber2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/carNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:layout_toRightOf="@id/carNumberText"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp12"
+                    android:background="@mipmap/edit" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
+
+                <TextView
+                    android:id="@+id/phoneNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/phoneNumber2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:layout_toRightOf="@id/phoneNumberText"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp12"
+                    android:background="@mipmap/edit" />
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp12"
+        android:layout_marginRight="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp12"
+        android:elevation="@dimen/dp100"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        card_view:cardBackgroundColor="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/name2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-
-        <EditText
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp50"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/selector_input_edit"
-            android:gravity="center_vertical"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <LinearLayout
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
+
+                <TextView
+                    android:id="@+id/joinDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/joinDate2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/joinDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:layout_toRightOf="@id/joinDateText"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp12"
+                    android:background="@mipmap/edit" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/joinDateLength2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/joinDateLength"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp12"
+        android:layout_marginRight="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp12"
+        android:elevation="@dimen/dp100"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        card_view:cardBackgroundColor="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/carNumber2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-
-        <EditText
-            android:id="@+id/carNumber"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/selector_input_edit"
-            android:gravity="center_vertical"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/phoneNumber2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/phoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/selector_input_edit"
-            android:gravity="center_vertical"
-            android:inputType="phone"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/lNumberTotal2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/joinDate2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
+                <TextView
+                    android:id="@+id/LNumberTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/joinDate"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/selector_input_edit"
-            android:gravity="center_vertical"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/joinDateLength2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/integralTotal2"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
 
-        <TextView
-            android:id="@+id/joinDateLength"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/input_normal"
-            android:gravity="center_vertical"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/lNumberTotal2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-
-        <TextView
-            android:id="@+id/LNumberTotal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/input_normal"
-            android:gravity="center_vertical"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp12"
-        android:paddingRight="@dimen/dp12">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/integralTotal2"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-
-        <TextView
-            android:id="@+id/integralTotal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp12"
-            android:background="@drawable/input_normal"
-            android:gravity="center_vertical"
-            android:textColor="@color/titleColor"
-            android:textSize="@dimen/sp16" />
-    </LinearLayout>
-
+                <TextView
+                    android:id="@+id/integralTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp12"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/titleColor"
+                    android:textSize="@dimen/sp16" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
