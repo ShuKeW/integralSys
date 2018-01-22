@@ -24,31 +24,18 @@
             android:orientation="vertical">
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/cardIdText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/cardNumber2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+
+                    style="@style/showMemItemTitle"
+                    android:text="@string/cardNumber2" />
 
                 <TextView
                     android:id="@+id/cardId"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/cardIdText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/cardIdText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -65,31 +52,17 @@
                 android:layout_marginLeft="@dimen/dp12"
                 android:background="@color/lineColor" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/nameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/name2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/name2" />
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/nameText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/nameText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -106,31 +79,17 @@
                 android:layout_marginLeft="@dimen/dp12"
                 android:background="@color/lineColor" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/carNumberText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/carNumber2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/carNumber2" />
 
                 <TextView
                     android:id="@+id/carNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/carNumberText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/carNumberText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -147,31 +106,17 @@
                 android:layout_marginLeft="@dimen/dp12"
                 android:background="@color/lineColor" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/phoneNumberText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/phoneNumber2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/phoneNumber2" />
 
                 <TextView
                     android:id="@+id/phoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/phoneNumberText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/phoneNumberText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -201,31 +146,17 @@
             android:orientation="vertical">
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/joinDateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/joinDate2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/joinDate2" />
 
                 <TextView
                     android:id="@+id/joinDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/joinDateText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/joinDateText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -243,29 +174,16 @@
                 android:background="@color/lineColor" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+                style="@style/showMemItemLayout"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/joinDateLength2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/joinDateLength2" />
 
                 <TextView
                     android:id="@+id/joinDateLength"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -287,29 +205,16 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+                style="@style/showMemItemLayout"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/lNumberTotal2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/lNumberTotal2" />
 
                 <TextView
                     android:id="@+id/LNumberTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue" />
             </LinearLayout>
 
             <TextView
@@ -319,29 +224,16 @@
                 android:background="@color/lineColor" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+                style="@style/showMemItemLayout"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/integralTotal2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/integralTotal2" />
 
                 <TextView
                     android:id="@+id/integralTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

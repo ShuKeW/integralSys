@@ -23,51 +23,28 @@
             android:text="@string/sava" />
     </RelativeLayout>
 
-    <LinearLayout style="@style/addMemItemLayout">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp12"
+        android:paddingLeft="@dimen/dp12"
+        android:paddingRight="@dimen/dp12"
+        android:text="@string/rules"
+        android:textColor="@color/mainColor"
+        android:textSize="@dimen/sp16" />
+
+
+    <LinearLayout
+        style="@style/addMemItemLayout"
+        android:layout_marginTop="@dimen/dp12">
 
         <TextView
             style="@style/addMemItemTitle"
-            android:text="@string/cardNumber2" />
-
-        <EditText
-            android:id="@+id/cardId"
-            style="@style/addMemItemValue"
-            android:inputType="number" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/addMemItemLayout">
+            android:text="@string/date2" />
 
         <TextView
-            style="@style/addMemItemTitle"
-            android:text="@string/name2" />
-
-        <EditText
-            android:id="@+id/name"
+            android:id="@+id/LNumberDate"
             style="@style/addMemItemValue" />
-    </LinearLayout>
-
-
-    <LinearLayout style="@style/addMemItemLayout">
-
-        <TextView
-            style="@style/addMemItemTitle"
-            android:text="@string/carNumber2" />
-
-        <EditText
-            android:id="@+id/carNumber"
-            style="@style/addMemItemValue" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/addMemItemLayout">
-
-        <TextView
-            style="@style/addMemItemTitle"
-            android:text="@string/phoneNumber2" />
-
-        <EditText
-            android:id="@+id/phoneNumber"
-            style="@style/addMemItemValue"
-            android:inputType="phone" />
     </LinearLayout>
 
     <LinearLayout style="@style/addMemItemLayout">
@@ -89,10 +66,10 @@
 
         <TextView
             style="@style/addMemItemTitle"
-            android:text="@string/date2" />
+            android:text="@string/integral2" />
 
         <TextView
-            android:id="@+id/createTime"
+            android:id="@+id/integralNumber"
             style="@style/addMemItemValue" />
     </LinearLayout>
 

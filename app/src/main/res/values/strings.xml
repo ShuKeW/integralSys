@@ -5,6 +5,7 @@
     <string name="joinDate2">入会时间：</string>
     <string name="joinDateLength2">入会时长：</string>
     <string name="integral">积分</string>
+    <string name="addIntegral">添加积分</string>
     <string name="integral2">积\u3000分：</string>
     <string name="integralTotal">总积分</string>
     <string name="integralTotal2">总积分：</string>
@@ -27,6 +28,7 @@
     <string name="theExport">导出</string>
     <string name="lNumberHint">单位（L）</string>
     <string name="delete">删除</string>
+    <string name="deleteMem">删除会员</string>
 
     <string name="date_picker_title">选择日期</string>
 
@@ -34,4 +36,8 @@
     <string name="sureDele">确认删除吗？</string>
     <string name="sOk">确认</string>
     <string name="sCancel">取消</string>
+    <string name="cancel">取消</string>
+    <string name="searchHint">可根据\n卡号、名字、车牌号、电话号码\n查询会员</string>
+    <string name="rules">说明：\n\u3000\u3000积分是根据加油量自动获得，每加1L油可获得1积分</string>
+    <string name="err">数据有误</string>
 </resources>

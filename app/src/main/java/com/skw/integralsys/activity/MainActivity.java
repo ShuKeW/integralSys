@@ -8,6 +8,8 @@ import com.skw.integralsys.adapter.MemberListAdapter;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.db.Members_;
 import com.skw.integralsys.decoration.DividerLinearItemDecoration;
+import com.skw.integralsys.popwindow.MainMoreWindow;
+import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -24,12 +26,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import io.objectbox.Box;
+import io.objectbox.android.AndroidScheduler;
 import io.objectbox.query.Query;
 import io.objectbox.query.QueryBuilder;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
-
-    private PopupWindow popupWindow;
+public class MainActivity extends FragmentActivity implements View.OnClickListener, OnWinMenuItemClickListener {
 
     private ImageView orderJoinDate;
 
@@ -50,6 +51,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private LinearLayoutManager layoutManager;
 
     private MemberListAdapter adapter;
+
+    private MainMoreWindow popWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         adapter = new MemberListAdapter(getApplicationContext(), null);
         recyclerView.setAdapter(adapter);
         more.setOnClickListener(this);
+        search.setOnClickListener(this);
         name.setOnClickListener(this);
         joinDate.setOnClickListener(this);
         totalIntegral.setOnClickListener(this);
@@ -85,6 +89,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
+                SearchActivity.intent(getApplicationContext());
                 break;
             case R.id.name:
                 if (orderJoinDate.getVisibility() == View.VISIBLE || orderTotalIntegral.getVisibility() == View.VISIBLE) {
@@ -131,31 +136,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 queryMembersIntegral();
                 break;
             case R.id.more:
-                popMoreMenu(v);
-                break;
-            case R.id.addMember:
-                AddMemberActivity.intent(getApplicationContext());
-                popupWindow.dismiss();
-                break;
-            case R.id.theImport:
-                break;
-            case R.id.theExport:
+                if (popWindow == null) {
+                    popWindow = new MainMoreWindow(this);
+                }
+                popWindow.showPopWindow(getApplicationContext(), v);
                 break;
         }
-    }
-
-    private void popMoreMenu(View targetView) {
-        View view = getLayoutInflater().inflate(R.layout.layout_menu_main, null);
-        TextView addMember = (TextView) view.findViewById(R.id.addMember);
-        TextView theImport = (TextView) view.findViewById(R.id.theImport);
-        TextView theExport = (TextView) view.findViewById(R.id.theExport);
-        addMember.setOnClickListener(this);
-        theImport.setOnClickListener(this);
-        theExport.setOnClickListener(this);
-        popupWindow = new PopupWindow(view, getResources().getDimensionPixelSize(R.dimen.dp150), getResources().getDimensionPixelSize(R.dimen.dp120), true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.GRAY));
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.showAsDropDown(targetView);
     }
 
     private void queryMembersNormal() {
@@ -199,11 +185,33 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
+    private void updateUi(List<Members> membersList){
+        if (pageNumber > 0) {
+            adapter.addDataList(membersList);
+        } else {
+            adapter.setDataList(membersList);
+        }
+    }
+
     private void setData(List<Members> membersList) {
         if (pageNumber > 0) {
             adapter.addDataList(membersList);
         } else {
             adapter.setDataList(membersList);
+        }
+    }
+
+    @Override
+    public void onWinMenuItemClick(int whitch) {
+        switch (whitch) {
+            case 0:
+                AddMemberActivity.intent(getApplicationContext());
+                popWindow.dismiss();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
         }
     }
 }

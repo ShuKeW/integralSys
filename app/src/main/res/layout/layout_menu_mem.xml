@@ -8,13 +8,13 @@
     android:paddingTop="@dimen/dp10">
 
     <TextView
-        android:id="@+id/addMember"
+        android:id="@+id/addIntegral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="@dimen/dp10"
         android:paddingTop="@dimen/dp10"
-        android:text="@string/addMember"
+        android:text="@string/addIntegral"
         android:textColor="@color/white"
         android:textSize="@dimen/dp15" />
 
@@ -26,31 +26,13 @@
         android:background="#626262" />
 
     <TextView
-        android:id="@+id/theImport"
+        android:id="@+id/deleteMem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="@dimen/dp10"
         android:paddingTop="@dimen/dp10"
-        android:text="@string/theImport"
-        android:textColor="@color/white"
-        android:textSize="@dimen/dp15" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp0.5"
-        android:layout_marginLeft="@dimen/dp5"
-        android:layout_marginRight="@dimen/dp5"
-        android:background="#626262" />
-
-    <TextView
-        android:id="@+id/theExport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="@dimen/dp10"
-        android:paddingTop="@dimen/dp10"
-        android:text="@string/theExport"
+        android:text="@string/deleteMem"
         android:textColor="@color/white"
         android:textSize="@dimen/dp15" />
 

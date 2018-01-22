@@ -169,6 +169,7 @@ public class MemBasicMsgFragment extends Fragment implements View.OnClickListene
 
     private boolean updateMember(Members members) {
         Box<Members> membersBox = ((App) (getActivity().getApplication())).getBoxStore().boxFor(Members.class);
+        members.setUpdateTime(new Date());
         long id = membersBox.put(members);
         if (id <= 0) {
             return false;

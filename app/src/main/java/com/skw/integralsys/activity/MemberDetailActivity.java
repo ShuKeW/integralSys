@@ -20,6 +20,9 @@ import com.skw.integralsys.adapter.MemDetailVpAdapter;
 import com.skw.integralsys.constants.Constants;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
+import com.skw.integralsys.popwindow.MainMoreWindow;
+import com.skw.integralsys.popwindow.MemMoreWindow;
+import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
 import com.skw.integralsys.utils.DialogUtil;
 import com.skw.integralsys.utils.Utils;
 
@@ -33,7 +36,7 @@ import io.objectbox.Box;
  * @类描述 一句话描述 你的类
  */
 
-public class MemberDetailActivity extends FragmentActivity implements View.OnClickListener, DialogInterface.OnClickListener {
+public class MemberDetailActivity extends FragmentActivity implements View.OnClickListener, DialogInterface.OnClickListener, OnWinMenuItemClickListener {
     private long MId;
     private static final String key_mid = "key_mid";
     private RelativeLayout tabLayout;
@@ -41,6 +44,7 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
     private TextView indexLine;
     private ViewPager viewPager;
     private MemDetailVpAdapter adapter;
+    private MemMoreWindow popWindow;
 
     public static void intent(Context context, long MId) {
         Intent intent = new Intent(context, MemberDetailActivity.class);
@@ -66,7 +70,7 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
 
     private void initView() {
         ImageView back = (ImageView) findViewById(R.id.back);
-        TextView delete = (TextView) findViewById(R.id.delete);
+        ImageView more = (ImageView) findViewById(R.id.memMore);
         tabLayout = (RelativeLayout) findViewById(R.id.tabLayout);
         tabBasicMsg = (TextView) findViewById(R.id.basisMsg);
         tabIntegralMsg = (TextView) findViewById(R.id.integralMsg);
@@ -82,7 +86,7 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
 
         viewPager = (ViewPager) findViewById(R.id.vpMemberDetail);
         back.setOnClickListener(this);
-        delete.setOnClickListener(this);
+        more.setOnClickListener(this);
         tabBasicMsg.setOnClickListener(this);
         tabIntegralMsg.setOnClickListener(this);
         tabBasicMsg.setSelected(true);
@@ -128,8 +132,11 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
             case R.id.back:
                 finish();
                 break;
-            case R.id.delete:
-                DialogUtil.dialogOKorCancel(this, R.string.hit, R.string.sureDele, R.string.sOk, R.string.sCancel, this);
+            case R.id.memMore:
+                if (popWindow == null) {
+                    popWindow = new MemMoreWindow(this);
+                }
+                popWindow.showPopWindow(getApplicationContext(), v);
                 break;
             case R.id.basisMsg:
                 tabIntegralMsg.setSelected(false);
@@ -161,6 +168,20 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
                 deleteMember();
+                break;
+        }
+    }
+
+    @Override
+    public void onWinMenuItemClick(int whitch) {
+        switch (whitch) {
+            case 0:
+                popWindow.dismiss();
+                AddIntegralActivity.intent(getApplicationContext(),MId);
+                break;
+            case 1:
+                popWindow.dismiss();
+                DialogUtil.dialogOKorCancel(this, R.string.hit, R.string.sureDele, R.string.sOk, R.string.sCancel, this);
                 break;
         }
     }

@@ -19,6 +19,8 @@
         <activity android:name=".activity.AddMemberActivity"></activity>
         <activity android:name=".activity.MemberDetailActivity"></activity>
         <activity android:name=".activity.IntegralDetailActivity"></activity>
+        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.AddIntegralActivity"></activity>
     </application>
 
 </manifest>

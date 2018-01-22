@@ -39,31 +39,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/lDateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/date2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/date2" />
 
                 <TextView
                     android:id="@+id/lDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/lDateText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/lDateText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -74,31 +60,23 @@
                     android:background="@mipmap/edit" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
+
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/lNumberText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/lNumber2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/lNumber2" />
 
                 <TextView
-                    android:id="@+id/lNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/lNumberText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    android:id="@+id/lNumber_i"
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/lNumberText" />
 
                 <ImageView
                     android:layout_width="@dimen/dp20"
@@ -109,31 +87,23 @@
                     android:background="@mipmap/edit" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp50"
-                android:paddingLeft="@dimen/dp12"
-                android:paddingRight="@dimen/dp12">
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginLeft="@dimen/dp12"
+                android:background="@color/lineColor" />
+
+            <RelativeLayout style="@style/showMemItemLayout">
 
                 <TextView
                     android:id="@+id/integralNumberText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/integral2"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemTitle"
+                    android:text="@string/integral2" />
 
                 <TextView
                     android:id="@+id/integralNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp12"
-                    android:layout_toRightOf="@id/integralNumberText"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/titleColor"
-                    android:textSize="@dimen/sp16" />
+                    style="@style/showMemItemValue"
+                    android:layout_toRightOf="@id/integralNumberText" />
             </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

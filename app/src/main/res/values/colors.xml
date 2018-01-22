@@ -16,4 +16,5 @@
     <color name="color_dcdcdc">#dcdcdc</color>
     <color name="color_da5a5a5">#a5a5a5</color>
     <color name="color_727272">#727272</color>
+    <color name="loading_dialog_bg">#55000000</color>
 </resources>

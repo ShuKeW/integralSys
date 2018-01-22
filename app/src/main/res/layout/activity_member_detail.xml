@@ -50,10 +50,10 @@
                 android:background="@color/white" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/delete"
-            style="@style/rightMenu"
-            android:text="@string/delete" />
+        <ImageView
+            android:id="@+id/memMore"
+            style="@style/more"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager
