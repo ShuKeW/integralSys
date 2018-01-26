@@ -18,15 +18,22 @@ import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Integral_;
 import com.skw.integralsys.db.Members;
+import com.skw.integralsys.eventbus.DeleteIntegralEvent;
+import com.skw.integralsys.eventbus.DeleteMemberEvent;
+import com.skw.integralsys.eventbus.EditIntegralEvent;
+import com.skw.integralsys.eventbus.LNumberChangeEvent;
 import com.skw.integralsys.utils.DatePickerUtil;
 import com.skw.integralsys.utils.DateUtil;
 import com.skw.integralsys.utils.DialogUtil;
 import com.skw.integralsys.utils.Utils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import io.objectbox.Box;
+import io.objectbox.relation.ToOne;
 
 /**
  * @创建人 weishukai
@@ -115,31 +122,64 @@ public class IntegralDetailActivity extends FragmentActivity implements View.OnC
     public void dateFinishYear(Calendar c, int type) {
         Date oldDate = integral.getCreateTime();
         integral.setCreateTime(c.getTime());
-        if (updateIntegral(integral)) {
+        if (updateIntegral(integral, false)) {
             createTimeText.setText(DateUtil.parceDateToStr(integral.getCreateTime()));
         } else {
             integral.setCreateTime(oldDate);
         }
     }
 
-    private boolean updateIntegral(Integral integral) {
+    private boolean updateIntegral(Integral integral, boolean isLNumberChange) {
+        if (isLNumberChange) {
+            Members members = integral.getMembersToOne().getTarget();
+            float LNumberValue = integral.getLNumber() - Float.parseFloat(LNumberText.getText().toString());
+            float integralValue = integral.getIntegral() - Float.parseFloat(integralText.getText().toString());
+            members.setLTotalNumber(members.getLTotalNumber() + LNumberValue);
+            members.setTotalIntegral(members.getTotalIntegral() + integralValue);
+            members.setUpdateTime(new Date());
+            Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
+            long memberId = membersBox.put(members);
+            if (memberId <= 0) {
+                Toast.makeText(getApplicationContext(), "保存失败，请检查重试", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         integral.setUpdateTime(new Date());
         long id = integralBox.put(integral);
         if (id <= 0) {
+            Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT).show();
             return false;
         }
         Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+        EventBus.getDefault().post(new EditIntegralEvent(integral));
+        if (isLNumberChange) {
+            EventBus.getDefault().post(new LNumberChangeEvent(integral.getMembersToOne().getTargetId(), integral.getMembersToOne().getTarget().getLTotalNumber(), integral.getMembersToOne().getTarget().getTotalIntegral()));
+        }
         return true;
     }
 
 
     private void deleteIntegral() {
-        DialogUtil.dialogLoading(this, "正在删除...");
+        DialogUtil.dialogLoading(getSupportFragmentManager(), "正在删除...");
+        Members members = integral.getMembersToOne().getTarget();
+        members.setLTotalNumber(members.getLTotalNumber() - integral.getLNumber());
+        members.setTotalIntegral(members.getTotalIntegral() - integral.getIntegral());
+        members.setUpdateTime(new Date());
+        Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
+        long memberId = membersBox.put(members);
+        if (memberId <= 0) {
+            Toast.makeText(getApplicationContext(), "更新失败，请检查重试", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         integralBox.remove(integral.getId());
-        DialogUtil.dialogLoadingDismiss(this);
+        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
         Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
+        EventBus.getDefault().post(new DeleteIntegralEvent(integral.getId()));
+        EventBus.getDefault().post(new LNumberChangeEvent(members.getId(), members.getLTotalNumber(), members.getTotalIntegral()));
         Utils.delayFinish(this, Constants.delayFinishTime);
     }
 
@@ -148,6 +188,7 @@ public class IntegralDetailActivity extends FragmentActivity implements View.OnC
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
+                dialog.cancel();
                 deleteIntegral();
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
@@ -163,9 +204,9 @@ public class IntegralDetailActivity extends FragmentActivity implements View.OnC
                 if (value == null) {
                     value = "";
                 }
-                integral.setLNumber(Long.parseLong(value));
-                integral.setIntegral(Long.parseLong(value));
-                if (updateIntegral(integral)) {
+                integral.setLNumber(Float.parseFloat(value));
+                integral.setIntegral(Float.parseFloat(value));
+                if (updateIntegral(integral, true)) {
                     LNumberText.setText("" + integral.getLNumber());
                     integralText.setText("" + integral.getIntegral());
                 } else {

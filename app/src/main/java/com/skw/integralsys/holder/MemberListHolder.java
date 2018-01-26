@@ -1,5 +1,6 @@
 package com.skw.integralsys.holder;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,11 +17,12 @@ import com.skw.integralsys.utils.DateUtil;
 
 public class MemberListHolder extends RVHolder<Members> {
     private Members model;
-    private TextView name, joinDate, totalIntegral;
+    private TextView name, cardId, joinDate, totalIntegral;
 
     public MemberListHolder(View itemView) {
         super(itemView);
         name = (TextView) itemView.findViewById(R.id.name);
+        cardId = (TextView) itemView.findViewById(R.id.cardId);
         joinDate = (TextView) itemView.findViewById(R.id.joinDate);
         totalIntegral = (TextView) itemView.findViewById(R.id.totalIntegral);
     }
@@ -29,6 +31,12 @@ public class MemberListHolder extends RVHolder<Members> {
     public void bindData(Members model, int position) {
         this.model = model;
         name.setText(model.getName());
+        if (TextUtils.isEmpty(model.getCardId())) {
+            cardId.setText("");
+        } else {
+            cardId.setText("(" + model.getCardId() + ")");
+        }
+
         joinDate.setText(DateUtil.parceDateToStr(model.getCreateTime()));
         totalIntegral.setText("" + model.getTotalIntegral());
 

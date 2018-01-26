@@ -73,4 +73,16 @@ public abstract class RVAdapter<T, V extends RVHolder> extends RecyclerView.Adap
         notifyDataSetChanged();
     }
 
+    public void addDataList(List<T> mDataList, int index) {
+        this.mDataList.addAll(index, mDataList);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(int position) {
+        if (this.mDataList != null) {
+            this.mDataList.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+
 }

@@ -40,4 +40,7 @@
     <string name="searchHint">可根据\n卡号、名字、车牌号、电话号码\n查询会员</string>
     <string name="rules">说明：\n\u3000\u3000积分是根据加油量自动获得，每加1L油可获得1积分</string>
     <string name="err">数据有误</string>
+    <string name="loadingMore">加载中...</string>
+    <string name="noMore">没有更多数据了</string>
+    <string name="loadingDialogMsg">加载中...</string>
 </resources>

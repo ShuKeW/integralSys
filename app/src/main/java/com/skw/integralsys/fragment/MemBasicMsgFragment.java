@@ -13,12 +13,19 @@ import android.widget.Toast;
 
 import com.skw.integralsys.App;
 import com.skw.integralsys.R;
+import com.skw.integralsys.bean.MemberBeanAndPosition;
 import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.db.Members_;
+import com.skw.integralsys.eventbus.EditMemberEvent;
+import com.skw.integralsys.eventbus.LNumberChangeEvent;
 import com.skw.integralsys.utils.DatePickerUtil;
 import com.skw.integralsys.utils.DateUtil;
 import com.skw.integralsys.utils.DialogUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -51,6 +58,7 @@ public class MemBasicMsgFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         Bundle args = getArguments();
         MId = args.getLong(key_MId);
     }
@@ -172,9 +180,11 @@ public class MemBasicMsgFragment extends Fragment implements View.OnClickListene
         members.setUpdateTime(new Date());
         long id = membersBox.put(members);
         if (id <= 0) {
+            Toast.makeText(getActivity().getApplicationContext(), "修改失败", Toast.LENGTH_SHORT).show();
             return false;
         }
         Toast.makeText(getActivity().getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+        EventBus.getDefault().post(new EditMemberEvent(members));
         return true;
     }
 
@@ -195,5 +205,21 @@ public class MemBasicMsgFragment extends Fragment implements View.OnClickListene
         } else {
             member.setCreateTime(oldDate);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LNumberChangeEvent event) {
+        if (member.getId() == event.MemberId) {
+            member.setLTotalNumber(event.LNumberTotal);
+            member.setTotalIntegral(event.integralNumberTotal);
+            totalLNumber.setText("" + member.getLTotalNumber());
+            totalIntegral.setText("" + member.getTotalIntegral());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

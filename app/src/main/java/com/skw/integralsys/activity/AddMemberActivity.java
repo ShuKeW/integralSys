@@ -19,9 +19,13 @@ import com.skw.integralsys.constants.Constants;
 import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
+import com.skw.integralsys.eventbus.AddMemberEvent;
 import com.skw.integralsys.utils.DatePickerUtil;
 import com.skw.integralsys.utils.DateUtil;
+import com.skw.integralsys.utils.DialogUtil;
 import com.skw.integralsys.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -88,6 +92,7 @@ public class AddMemberActivity extends FragmentActivity implements View.OnClickL
     }
 
     private void saveMember() {
+        DialogUtil.dialogLoading(getSupportFragmentManager(), "保存中...");
         Members member = new Members();
         member.setCardId(cardId.getText().toString());
         member.setName(name.getText().toString());
@@ -115,12 +120,14 @@ public class AddMemberActivity extends FragmentActivity implements View.OnClickL
 
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         long id = integralBox.put(integral);
+        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
         if (id <= 0) {
             Toast.makeText(getApplicationContext(), "保存失败，请检查重试", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+        EventBus.getDefault().post(new AddMemberEvent());
         Utils.delayFinish(this, Constants.delayFinishTime);
     }
 

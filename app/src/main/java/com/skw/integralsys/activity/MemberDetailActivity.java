@@ -20,15 +20,20 @@ import com.skw.integralsys.adapter.MemDetailVpAdapter;
 import com.skw.integralsys.constants.Constants;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
-import com.skw.integralsys.popwindow.MainMoreWindow;
+import com.skw.integralsys.db.MyObjectBox;
+import com.skw.integralsys.eventbus.DeleteMemberEvent;
 import com.skw.integralsys.popwindow.MemMoreWindow;
 import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
 import com.skw.integralsys.utils.DialogUtil;
 import com.skw.integralsys.utils.Utils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import io.objectbox.Box;
+import io.objectbox.BoxStore;
+import io.objectbox.BoxStoreBuilder;
 
 /**
  * @创建人 weishukai
@@ -152,21 +157,24 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
     }
 
     private void deleteMember() {
-        DialogUtil.dialogLoading(this, "正在删除...");
+        DialogUtil.dialogLoading(getSupportFragmentManager(), "正在删除...");
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         List<Integral> integralList = integralBox.query().build().find();
         integralBox.remove(integralList);
         Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
         membersBox.remove(MId);
-        DialogUtil.dialogLoadingDismiss(this);
+        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
         Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
-        Utils.delayFinish(this, Constants.delayFinishTime);
+        EventBus.getDefault().post(new DeleteMemberEvent(MId));
+        Utils.delayFinish(MemberDetailActivity.this, Constants.delayFinishTime);
+
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
+                dialog.dismiss();
                 deleteMember();
                 break;
         }
@@ -177,7 +185,7 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
         switch (whitch) {
             case 0:
                 popWindow.dismiss();
-                AddIntegralActivity.intent(getApplicationContext(),MId);
+                AddIntegralActivity.intent(getApplicationContext(), MId);
                 break;
             case 1:
                 popWindow.dismiss();

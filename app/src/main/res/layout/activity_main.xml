@@ -63,6 +63,7 @@
         <TextView
             android:id="@+id/name"
             style="@style/item_mem_tab"
+            android:background="@drawable/selector_click"
             android:text="@string/name" />
 
         <TextView
@@ -76,7 +77,8 @@
             android:id="@+id/joinDate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/selector_click">
 
             <TextView
                 android:id="@+id/joinDateText"
@@ -111,7 +113,8 @@
             android:id="@+id/totalIntegral"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/selector_click">
 
             <TextView
                 android:id="@+id/totalIntegralText"
@@ -141,11 +144,16 @@
         android:layout_height="@dimen/dp1"
         android:background="@color/lineColor" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvMemberList"
+    <FrameLayout
+        android:id="@+id/convertId"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <com.skw.integralsys.view.MyRecyclerView
+            android:id="@+id/rvMemberList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.skw.integralsys.view.MyRecyclerView>
+    </FrameLayout>
+
 
 </LinearLayout>

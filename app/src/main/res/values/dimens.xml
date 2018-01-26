@@ -8,6 +8,7 @@
     <dimen name="dp1">1dp</dimen>
     <dimen name="dp0.5">0.5dp</dimen>
     <dimen name="dp4">4dp</dimen>
+    <dimen name="dp36">36dp</dimen>
     <dimen name="dp150">150dp</dimen>
     <dimen name="dp120">120dp</dimen>
     <dimen name="dp10.5">10.5dp</dimen>

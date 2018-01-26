@@ -1,36 +1,44 @@
 package com.skw.integralsys.activity;
 
-import java.util.List;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.skw.integralsys.App;
 import com.skw.integralsys.R;
 import com.skw.integralsys.adapter.MemberListAdapter;
+import com.skw.integralsys.bean.MemberBeanAndPosition;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.db.Members_;
 import com.skw.integralsys.decoration.DividerLinearItemDecoration;
+import com.skw.integralsys.eventbus.AddMemberEvent;
+import com.skw.integralsys.eventbus.DeleteMemberEvent;
+import com.skw.integralsys.eventbus.EditMemberEvent;
+import com.skw.integralsys.eventbus.LNumberChangeEvent;
 import com.skw.integralsys.popwindow.MainMoreWindow;
 import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
+import com.skw.integralsys.utils.DialogUtil;
+import com.skw.integralsys.view.MyRecyclerView;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import io.objectbox.Box;
-import io.objectbox.android.AndroidScheduler;
 import io.objectbox.query.Query;
 import io.objectbox.query.QueryBuilder;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener, OnWinMenuItemClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener, OnWinMenuItemClickListener, MyRecyclerView.OnLoadMoreListener {
 
     private ImageView orderJoinDate;
 
@@ -42,11 +50,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private int order;
 
-    private int pageCount = 20;
+    private int pageCount = 15;
 
-    private int pageNumber = 0;
-
-    private RecyclerView recyclerView;
+    private MyRecyclerView recyclerView;
 
     private LinearLayoutManager layoutManager;
 
@@ -58,8 +64,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
         initView();
-        queryMembersNormal();
+        getMemberList(true);
     }
 
     private void initView() {
@@ -70,12 +77,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         orderJoinDate = (ImageView) findViewById(R.id.orderJoinDate);
         RelativeLayout totalIntegral = (RelativeLayout) findViewById(R.id.totalIntegral);
         orderTotalIntegral = (ImageView) findViewById(R.id.ordertotalIntegral);
-        recyclerView = (RecyclerView) findViewById(R.id.rvMemberList);
+        recyclerView = (MyRecyclerView) findViewById(R.id.rvMemberList);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerLinearItemDecoration(Color.parseColor("#dfdfdf"), getResources().getDimensionPixelSize(R.dimen.dp1), Color.parseColor("#dfdfdf"),
-                getResources().getDimensionPixelSize(R.dimen.dp1)));
+                0));
         adapter = new MemberListAdapter(getApplicationContext(), null);
         recyclerView.setAdapter(adapter);
         more.setOnClickListener(this);
@@ -86,6 +93,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        recyclerView.setOnLoadMoreListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        recyclerView.setOnLoadMoreListener(null);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
@@ -93,14 +112,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.name:
                 if (orderJoinDate.getVisibility() == View.VISIBLE || orderTotalIntegral.getVisibility() == View.VISIBLE) {
-                    pageNumber = 0;
                     orderJoinDate.setVisibility(View.GONE);
                     orderTotalIntegral.setVisibility(View.GONE);
-                    queryMembersNormal();
+                    DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
+                    getMemberList(true);
+                    DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
                 }
                 break;
             case R.id.joinDate:
-                pageNumber = 0;
                 if (orderJoinDate.getVisibility() == View.GONE) {
                     order = desc;
                     orderJoinDate.setBackgroundResource(R.mipmap.arrow_order_desc);
@@ -115,10 +134,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         orderJoinDate.setBackgroundResource(R.mipmap.arrow_order_desc);
                     }
                 }
-                queryMembersDate();
+//                DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setView(R.layout.dialog_progress);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                getMemberList(true);
+//                DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+                dialog.dismiss();
                 break;
             case R.id.totalIntegral:
-                pageNumber = 0;
                 if (orderTotalIntegral.getVisibility() == View.GONE) {
                     order = desc;
                     orderTotalIntegral.setBackgroundResource(R.mipmap.arrow_order_desc);
@@ -133,7 +158,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         orderTotalIntegral.setBackgroundResource(R.mipmap.arrow_order_desc);
                     }
                 }
-                queryMembersIntegral();
+                DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
+                getMemberList(true);
+                DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
                 break;
             case R.id.more:
                 if (popWindow == null) {
@@ -144,15 +171,62 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    private void queryMembersNormal() {
+    @Override
+    public void onLoadMore() {
+        getMemberList(false);
+    }
+
+    private void getMemberList(boolean isForstPage) {
+        int count = adapter.getItemCount();
+        if (isForstPage) {
+            count = 0;
+            adapter.setDataList(null);
+            recyclerView.scrollToPosition(0);
+        } else {
+            if (count > 0) {
+                count--;
+            }
+        }
+
+        List<Members> membersList = null;
+        if (orderJoinDate.getVisibility() == View.VISIBLE) {
+            membersList = queryMembersDate(count);
+        } else if (orderTotalIntegral.getVisibility() == View.VISIBLE) {
+            membersList = queryMembersIntegral(count);
+        } else {
+            membersList = queryMembersNormal(count);
+        }
+        if (isForstPage) {
+            Members members = new Members();
+            if (membersList == null || membersList.size() < pageCount) {
+                members.setId(-1);
+            }
+            membersList.add(members);
+            adapter.setDataList(membersList);
+        } else {
+            recyclerView.setLoadMoreComplete();
+            if (membersList != null && membersList.size() > 0) {
+                if (membersList.size() < pageCount) {
+                    Members members = adapter.getItem(adapter.getItemCount() - 1);
+                    members.setId(-1);
+                }
+                adapter.addDataList(membersList, adapter.getItemCount() - 1);
+            } else {
+                Members members = adapter.getItem(adapter.getItemCount() - 1);
+                members.setId(-1);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private List<Members> queryMembersNormal(int count) {
         Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
         QueryBuilder<Members> queryBuilder = membersBox.query();
         Query<Members> query = queryBuilder.build();
-        List<Members> membersList = query.find(pageNumber * pageCount, pageCount);
-        setData(membersList);
+        return query.find(count, pageCount);
     }
 
-    private void queryMembersDate() {
+    private List<Members> queryMembersDate(int count) {
         Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
         QueryBuilder<Members> queryBuilder = membersBox.query();
         Query<Members> query = null;
@@ -164,11 +238,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 query = queryBuilder.orderDesc(Members_.createTime).build();
                 break;
         }
-        List<Members> membersList = query.find(pageNumber * pageCount, pageCount);
-        setData(membersList);
+        return query.find(count, pageCount);
     }
 
-    private void queryMembersIntegral() {
+    private List<Members> queryMembersIntegral(int count) {
         Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
         QueryBuilder<Members> queryBuilder = membersBox.query();
         Query<Members> query = null;
@@ -180,33 +253,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 query = queryBuilder.orderDesc(Members_.totalIntegral).build();
                 break;
         }
-        List<Members> membersList = query.find(pageNumber * pageCount, pageCount);
-        setData(membersList);
-
-    }
-
-    private void updateUi(List<Members> membersList){
-        if (pageNumber > 0) {
-            adapter.addDataList(membersList);
-        } else {
-            adapter.setDataList(membersList);
-        }
-    }
-
-    private void setData(List<Members> membersList) {
-        if (pageNumber > 0) {
-            adapter.addDataList(membersList);
-        } else {
-            adapter.setDataList(membersList);
-        }
+        return query.find(count, pageCount);
     }
 
     @Override
     public void onWinMenuItemClick(int whitch) {
         switch (whitch) {
             case 0:
-                AddMemberActivity.intent(getApplicationContext());
                 popWindow.dismiss();
+                AddMemberActivity.intent(getApplicationContext());
                 break;
             case 1:
                 break;
@@ -214,4 +269,67 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddMemberEvent event) {
+        if (adapter.getItemCount() - 1 < pageCount) {
+            getMemberList(true);
+        } else if (adapter.getItem(adapter.getItemCount() - 1).getId() == -1) {
+            getMemberList(false);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EditMemberEvent event) {
+        MemberBeanAndPosition memberBeanAndPosition = findMember(event.members.getId());
+        if (memberBeanAndPosition.members != null) {
+            memberBeanAndPosition.members.setName(event.members.getName());
+            memberBeanAndPosition.members.setCardId(event.members.getCardId());
+            memberBeanAndPosition.members.setCarNumber(event.members.getCarNumber());
+            memberBeanAndPosition.members.setPhoneNumber(event.members.getPhoneNumber());
+            memberBeanAndPosition.members.setLTotalNumber(event.members.getLTotalNumber());
+            memberBeanAndPosition.members.setTotalIntegral(event.members.getTotalIntegral());
+            memberBeanAndPosition.members.setCreateTime(event.members.getCreateTime());
+            memberBeanAndPosition.members.setUpdateTime(event.members.getUpdateTime());
+            adapter.notifyItemChanged(memberBeanAndPosition.position);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DeleteMemberEvent event) {
+        MemberBeanAndPosition memberBeanAndPosition = findMember(event.MemberId);
+        if (memberBeanAndPosition.members != null) {
+            adapter.removeItem(memberBeanAndPosition.position);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LNumberChangeEvent event) {
+        MemberBeanAndPosition memberBeanAndPosition = findMember(event.MemberId);
+        if (memberBeanAndPosition.members != null) {
+            memberBeanAndPosition.members.setLTotalNumber(event.LNumberTotal);
+            memberBeanAndPosition.members.setTotalIntegral(event.integralNumberTotal);
+            adapter.notifyItemChanged(memberBeanAndPosition.position);
+        }
+    }
+
+    private MemberBeanAndPosition findMember(long memId) {
+        MemberBeanAndPosition memberBeanAndPosition = new MemberBeanAndPosition();
+        int count = adapter.getItemCount();
+        for (int i = 0; i < count; i++) {
+            memberBeanAndPosition.members = adapter.getItem(i);
+            if (memberBeanAndPosition.members != null && memberBeanAndPosition.members.getId() == memId) {
+                memberBeanAndPosition.position = i;
+                break;
+            }
+        }
+        return memberBeanAndPosition;
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
 }

@@ -2,8 +2,10 @@ package com.skw.integralsys.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.EditText;
 
 import com.skw.integralsys.R;
 import com.skw.integralsys.dialog.LoadingDialogFragment;
+
+import java.util.List;
 
 /**
  * @创建人 weishukai
@@ -51,6 +55,7 @@ public class DialogUtil {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case -1:
+                        dialog.cancel();
                         listener.onSureClick(editText.getText().toString(), type);
                         break;
                 }
@@ -64,30 +69,30 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public static void dialogLoading(FragmentActivity context, String msg) {
-        if (context != null) {
-            FragmentManager fragmentManager = context.getSupportFragmentManager();
-            if (fragmentManager != null) {
-                LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) fragmentManager.findFragmentByTag(LoadingDialogFragment.class.getName());
-                if (loadingDialogFragment == null) {
-                    loadingDialogFragment = LoadingDialogFragment.getInstance();
-                    loadingDialogFragment.showAllowingStateLoss(fragmentManager);
-                    fragmentManager.executePendingTransactions();
-                }
-                loadingDialogFragment.setMessage(msg);
+    public static void dialogLoading(FragmentManager fragmentManager, String msg) {
+        if (fragmentManager != null) {
+            LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) fragmentManager.findFragmentByTag(LoadingDialogFragment.class.getName());
+            if (loadingDialogFragment == null) {
+                loadingDialogFragment = LoadingDialogFragment.getInstance(msg);
+            }
+            if (loadingDialogFragment.isAdded()) {
+                loadingDialogFragment.setMsg(msg);
+            } else {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(android.R.id.content, loadingDialogFragment, LoadingDialogFragment.class.getName()).commitNowAllowingStateLoss();
+//                loadingDialogFragment.show(fragmentManager, LoadingDialogFragment.class.getName());
             }
         }
     }
 
-    public static void dialogLoadingDismiss(FragmentActivity context) {
-        if (context != null) {
-            FragmentManager fragmentManager = context.getSupportFragmentManager();
-            if (fragmentManager != null) {
-                LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) fragmentManager.findFragmentByTag(LoadingDialogFragment.class.getName());
-                if (loadingDialogFragment != null) {
-                    loadingDialogFragment.dismissAllowingStateLoss();
-                }
+    public static void dialogLoadingDismiss(FragmentManager fragmentManager) {
+        if (fragmentManager != null) {
+            LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) fragmentManager.findFragmentByTag(LoadingDialogFragment.class.getName());
+            if (loadingDialogFragment != null) {
+//                loadingDialogFragment.dismissAllowingStateLoss();
+                fragmentManager.beginTransaction().remove(loadingDialogFragment).commitNowAllowingStateLoss();
             }
         }
+
     }
 }

@@ -42,7 +42,7 @@
         android:layout_height="@dimen/dp1"
         android:background="@color/lineColor" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.skw.integralsys.view.MyRecyclerView
         android:id="@+id/rvIntegralList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
