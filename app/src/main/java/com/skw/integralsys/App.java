@@ -3,6 +3,7 @@ package com.skw.integralsys;
 import android.app.Application;
 
 import com.skw.integralsys.db.MyObjectBox;
+import com.skw.integralsys.utils.FileUtil;
 
 import io.objectbox.BoxStore;
 
@@ -18,7 +19,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        boxStore = MyObjectBox.builder().androidContext(App.this).build();
+//        boxStore = MyObjectBox.builder().androidContext(App.this).build();
+        boxStore = MyObjectBox.builder().androidContext(App.this).baseDirectory(FileUtil.getBaseDir(App.this)).name(FileUtil.DBNAME).build();
     }
 
     public BoxStore getBoxStore() {

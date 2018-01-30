@@ -18,10 +18,12 @@ import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Integral_;
 import com.skw.integralsys.db.Members;
+import com.skw.integralsys.dialog.LoadingDialogFragment;
 import com.skw.integralsys.eventbus.DeleteIntegralEvent;
 import com.skw.integralsys.eventbus.DeleteMemberEvent;
 import com.skw.integralsys.eventbus.EditIntegralEvent;
 import com.skw.integralsys.eventbus.LNumberChangeEvent;
+import com.skw.integralsys.threadpool.ThreadPoolManager;
 import com.skw.integralsys.utils.DatePickerUtil;
 import com.skw.integralsys.utils.DateUtil;
 import com.skw.integralsys.utils.DialogUtil;
@@ -162,25 +164,31 @@ public class IntegralDetailActivity extends FragmentActivity implements View.OnC
 
 
     private void deleteIntegral() {
-        DialogUtil.dialogLoading(getSupportFragmentManager(), "正在删除...");
-        Members members = integral.getMembersToOne().getTarget();
-        members.setLTotalNumber(members.getLTotalNumber() - integral.getLNumber());
-        members.setTotalIntegral(members.getTotalIntegral() - integral.getIntegral());
-        members.setUpdateTime(new Date());
-        Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
-        long memberId = membersBox.put(members);
-        if (memberId <= 0) {
-            Toast.makeText(getApplicationContext(), "更新失败，请检查重试", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        ((App) getApplication()).getBoxStore().runInTx(new Runnable() {
+            @Override
+            public void run() {
+                LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在删除...");
+                Members members = integral.getMembersToOne().getTarget();
+                members.setLTotalNumber(members.getLTotalNumber() - integral.getLNumber());
+                members.setTotalIntegral(members.getTotalIntegral() - integral.getIntegral());
+                members.setUpdateTime(new Date());
+                Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
+                long memberId = membersBox.put(members);
+                if (memberId <= 0) {
+                    Toast.makeText(getApplicationContext(), "更新失败，请检查重试", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
+                integralBox.remove(integral.getId());
+//                DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+                loadingDialogFragment.dismissAllowingStateLoss();
+                Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new DeleteIntegralEvent(integral.getId()));
+                EventBus.getDefault().post(new LNumberChangeEvent(members.getId(), members.getLTotalNumber(), members.getTotalIntegral()));
+                Utils.delayFinish(IntegralDetailActivity.this, Constants.delayFinishTime);
+            }
+        });
 
-        Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
-        integralBox.remove(integral.getId());
-        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
-        Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
-        EventBus.getDefault().post(new DeleteIntegralEvent(integral.getId()));
-        EventBus.getDefault().post(new LNumberChangeEvent(members.getId(), members.getLTotalNumber(), members.getTotalIntegral()));
-        Utils.delayFinish(this, Constants.delayFinishTime);
     }
 
 

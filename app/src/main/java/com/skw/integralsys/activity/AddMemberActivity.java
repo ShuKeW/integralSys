@@ -19,6 +19,7 @@ import com.skw.integralsys.constants.Constants;
 import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
+import com.skw.integralsys.dialog.LoadingDialogFragment;
 import com.skw.integralsys.eventbus.AddMemberEvent;
 import com.skw.integralsys.utils.DatePickerUtil;
 import com.skw.integralsys.utils.DateUtil;
@@ -92,7 +93,7 @@ public class AddMemberActivity extends FragmentActivity implements View.OnClickL
     }
 
     private void saveMember() {
-        DialogUtil.dialogLoading(getSupportFragmentManager(), "保存中...");
+        LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "保存中...");
         Members member = new Members();
         member.setCardId(cardId.getText().toString());
         member.setName(name.getText().toString());
@@ -120,7 +121,7 @@ public class AddMemberActivity extends FragmentActivity implements View.OnClickL
 
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         long id = integralBox.put(integral);
-        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+        DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
         if (id <= 0) {
             Toast.makeText(getApplicationContext(), "保存失败，请检查重试", Toast.LENGTH_SHORT).show();
             return;

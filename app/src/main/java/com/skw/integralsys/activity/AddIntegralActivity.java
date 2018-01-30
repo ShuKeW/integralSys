@@ -22,6 +22,7 @@ import com.skw.integralsys.datepicker.DatePicker4YearDialog;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.db.Members_;
+import com.skw.integralsys.dialog.LoadingDialogFragment;
 import com.skw.integralsys.eventbus.AddIntegralEvent;
 import com.skw.integralsys.eventbus.LNumberChangeEvent;
 import com.skw.integralsys.utils.DatePickerUtil;
@@ -140,7 +141,7 @@ public class AddIntegralActivity extends FragmentActivity implements View.OnClic
             Toast.makeText(getApplicationContext(), "请填写数据", Toast.LENGTH_SHORT).show();
             return;
         }
-        DialogUtil.dialogLoading(getSupportFragmentManager(), "保存中...");
+        LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "保存中...");
         float LNumberValue = Float.parseFloat(LNumber.getText().toString());
         float integralValue = Float.parseFloat(integralNumber.getText().toString());
         members.setLTotalNumber(members.getLTotalNumber() + LNumberValue);
@@ -162,7 +163,7 @@ public class AddIntegralActivity extends FragmentActivity implements View.OnClic
 
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         long id = integralBox.put(integral);
-        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+        DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
         if (id <= 0) {
             Toast.makeText(getApplicationContext(), "保存失败，请检查重试", Toast.LENGTH_SHORT).show();
             return;

@@ -21,6 +21,7 @@ import com.skw.integralsys.constants.Constants;
 import com.skw.integralsys.db.Integral;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.db.MyObjectBox;
+import com.skw.integralsys.dialog.LoadingDialogFragment;
 import com.skw.integralsys.eventbus.DeleteMemberEvent;
 import com.skw.integralsys.popwindow.MemMoreWindow;
 import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
@@ -157,13 +158,13 @@ public class MemberDetailActivity extends FragmentActivity implements View.OnCli
     }
 
     private void deleteMember() {
-        DialogUtil.dialogLoading(getSupportFragmentManager(), "正在删除...");
+        LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在删除...");
         Box<Integral> integralBox = ((App) getApplication()).getBoxStore().boxFor(Integral.class);
         List<Integral> integralList = integralBox.query().build().find();
         integralBox.remove(integralList);
         Box<Members> membersBox = ((App) getApplication()).getBoxStore().boxFor(Members.class);
         membersBox.remove(MId);
-        DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+        DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
         Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
         EventBus.getDefault().post(new DeleteMemberEvent(MId));
         Utils.delayFinish(MemberDetailActivity.this, Constants.delayFinishTime);

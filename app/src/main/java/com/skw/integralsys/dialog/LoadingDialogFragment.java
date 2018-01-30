@@ -17,7 +17,7 @@ import com.skw.integralsys.R;
  * @类描述 一句话说明这个类是干什么的
  */
 
-public class LoadingDialogFragment extends Fragment {
+public class LoadingDialogFragment extends DialogFragment {
     private TextView msg;
 
     public static LoadingDialogFragment getInstance(String msg) {
@@ -31,7 +31,7 @@ public class LoadingDialogFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
     }
 
     @Nullable

@@ -1,16 +1,20 @@
 package com.skw.integralsys.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skw.integralsys.App;
 import com.skw.integralsys.R;
@@ -19,6 +23,7 @@ import com.skw.integralsys.bean.MemberBeanAndPosition;
 import com.skw.integralsys.db.Members;
 import com.skw.integralsys.db.Members_;
 import com.skw.integralsys.decoration.DividerLinearItemDecoration;
+import com.skw.integralsys.dialog.LoadingDialogFragment;
 import com.skw.integralsys.eventbus.AddMemberEvent;
 import com.skw.integralsys.eventbus.DeleteMemberEvent;
 import com.skw.integralsys.eventbus.EditMemberEvent;
@@ -26,6 +31,7 @@ import com.skw.integralsys.eventbus.LNumberChangeEvent;
 import com.skw.integralsys.popwindow.MainMoreWindow;
 import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
 import com.skw.integralsys.utils.DialogUtil;
+import com.skw.integralsys.utils.FileUtil;
 import com.skw.integralsys.view.MyRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +65,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private MemberListAdapter adapter;
 
     private MainMoreWindow popWindow;
+
+    private static final int WRITE_EXTERNAL_STORAGE_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +122,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if (orderJoinDate.getVisibility() == View.VISIBLE || orderTotalIntegral.getVisibility() == View.VISIBLE) {
                     orderJoinDate.setVisibility(View.GONE);
                     orderTotalIntegral.setVisibility(View.GONE);
-                    DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
+                    LoadingDialogFragment loadingDialogFragment1 = DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
                     getMemberList(true);
-                    DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+                    DialogUtil.dialogLoadingDismiss(loadingDialogFragment1);
                 }
                 break;
             case R.id.joinDate:
@@ -134,14 +142,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         orderJoinDate.setBackgroundResource(R.mipmap.arrow_order_desc);
                     }
                 }
-//                DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setView(R.layout.dialog_progress);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                LoadingDialogFragment loadingDialogFragment2 = DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
                 getMemberList(true);
-//                DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
-                dialog.dismiss();
+                DialogUtil.dialogLoadingDismiss(loadingDialogFragment2);
                 break;
             case R.id.totalIntegral:
                 if (orderTotalIntegral.getVisibility() == View.GONE) {
@@ -158,9 +161,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         orderTotalIntegral.setBackgroundResource(R.mipmap.arrow_order_desc);
                     }
                 }
-                DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
+                LoadingDialogFragment loadingDialogFragment3 = DialogUtil.dialogLoading(getSupportFragmentManager(), "加载中...");
                 getMemberList(true);
-                DialogUtil.dialogLoadingDismiss(getSupportFragmentManager());
+                DialogUtil.dialogLoadingDismiss(loadingDialogFragment3);
                 break;
             case R.id.more:
                 if (popWindow == null) {
@@ -264,8 +267,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 AddMemberActivity.intent(getApplicationContext());
                 break;
             case 1:
+                popWindow.dismiss();
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        DialogUtil.dialogOKorCancel(this, "提示", "打开权限", R.string.sOk, R.string.sCancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
+                                        break;
+                                }
+                            }
+                        });
+                    } else {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
+                    }
+                }else {
+                    LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在复制，请稍后");
+                    FileUtil.importDb(getApplicationContext());
+                    DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
+                }
                 break;
             case 2:
+                popWindow.dismiss();
                 break;
         }
     }
@@ -324,6 +349,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }
         return memberBeanAndPosition;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == WRITE_EXTERNAL_STORAGE_CODE) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //  permission has been granted, preview can be displayed
+                LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在复制，请稍后");
+                FileUtil.importDb(getApplicationContext());
+                DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
+            } else {
+                Toast.makeText(getApplicationContext(), "没有获取到写权限", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override

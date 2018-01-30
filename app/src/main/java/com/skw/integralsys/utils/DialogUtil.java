@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +31,15 @@ public class DialogUtil {
     }
 
     public static void dialogOKorCancel(Context context, int title, int msg, int sOk, int sCancel, DialogInterface.OnClickListener clickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.KemaidDialogTheme);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setPositiveButton(sOk, clickListener);
+        builder.setNegativeButton(sCancel, clickListener);
+        builder.show();
+    }
+
+    public static void dialogOKorCancel(Context context, String title, String msg, int sOk, int sCancel, DialogInterface.OnClickListener clickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.KemaidDialogTheme);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -69,7 +79,7 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public static void dialogLoading(FragmentManager fragmentManager, String msg) {
+    public static LoadingDialogFragment dialogLoading(FragmentManager fragmentManager, String msg) {
         if (fragmentManager != null) {
             LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) fragmentManager.findFragmentByTag(LoadingDialogFragment.class.getName());
             if (loadingDialogFragment == null) {
@@ -79,20 +89,19 @@ public class DialogUtil {
                 loadingDialogFragment.setMsg(msg);
             } else {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(android.R.id.content, loadingDialogFragment, LoadingDialogFragment.class.getName()).commitNowAllowingStateLoss();
+                fragmentTransaction.add(loadingDialogFragment, LoadingDialogFragment.class.getName()).commitNowAllowingStateLoss();
+////                fragmentTransaction.add(android.R.id.content, loadingDialogFragment, LoadingDialogFragment.class.getName()).commitNowAllowingStateLoss();
 //                loadingDialogFragment.show(fragmentManager, LoadingDialogFragment.class.getName());
             }
+            return loadingDialogFragment;
+        }
+        return null;
+    }
+
+    public static void dialogLoadingDismiss(LoadingDialogFragment loadingDialogFragment) {
+        if (loadingDialogFragment != null) {
+            loadingDialogFragment.dismissAllowingStateLoss();
         }
     }
 
-    public static void dialogLoadingDismiss(FragmentManager fragmentManager) {
-        if (fragmentManager != null) {
-            LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) fragmentManager.findFragmentByTag(LoadingDialogFragment.class.getName());
-            if (loadingDialogFragment != null) {
-//                loadingDialogFragment.dismissAllowingStateLoss();
-                fragmentManager.beginTransaction().remove(loadingDialogFragment).commitNowAllowingStateLoss();
-            }
-        }
-
-    }
 }
