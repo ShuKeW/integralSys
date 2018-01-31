@@ -82,6 +82,7 @@ public class AddMemberActivity extends FragmentActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.back:
                 finish();
+                break;
             case R.id.save:
                 saveMember();
                 break;

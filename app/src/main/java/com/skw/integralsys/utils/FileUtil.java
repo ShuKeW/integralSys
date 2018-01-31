@@ -1,7 +1,11 @@
 package com.skw.integralsys.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -64,14 +68,22 @@ public class FileUtil {
         return filesDir;
     }
 
-    public static void importDb(Context context) {
+    public static void importDb(Context context, Uri uri) {
+        File fileDest = new File(getBaseDir(context), DBNAME);
+        if (fileDest.exists() && fileDest.isDirectory()) {
+            File fileSource = new File(uri.getPath());
+            copyFile(fileSource, new File(fileDest, fileSource.getName()));
+        }
+    }
+
+    public static void exportDb(Context context) {
         File file = new File(getBaseDir(context), DBNAME);
         if (file.exists() && file.isDirectory()) {
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 File fileDestDir = new File(Environment.getExternalStorageDirectory(), DBNAME);
                 if (!fileDestDir.exists()) {
                     boolean result = fileDestDir.mkdirs();
-                    Log.d("aa","目标创建结果："+result);
+                    Log.d("aa", "目标创建结果：" + result);
                 }
                 File[] files = file.listFiles();
                 for (File fileDb : files) {
@@ -80,17 +92,13 @@ public class FileUtil {
             } else {
                 Toast.makeText(context, "sd卡不可用", Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
 
     private static void copyFile(File source, File dest) {
         Log.d("aa", "原地址：" + source.getAbsolutePath());
         Log.d("aa", "目标地址：" + dest.getAbsolutePath());
-        if (dest.exists()) {
-            dest.delete();
-        } else {
+        if (!dest.exists()) {
             try {
                 dest.createNewFile();
             } catch (IOException e) {
@@ -119,6 +127,68 @@ public class FileUtil {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    /**
+     * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
+     */
+    @SuppressLint("NewApi")
+    public static String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+//        // DocumentProvider
+//        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+//            // ExternalStorageProvider
+//            if (isExternalStorageDocument(uri)) {
+//                final String docId = DocumentsContract.getDocumentId(uri);
+//                final String[] split = docId.split(":");
+//                final String type = split[0];
+//
+//                if ("primary".equalsIgnoreCase(type)) {
+//                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+//                }
+//            }
+//            // DownloadsProvider
+//            else if (isDownloadsDocument(uri)) {
+//
+//                final String id = DocumentsContract.getDocumentId(uri);
+//                final Uri contentUri = ContentUris.withAppendedId(
+//                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+//
+//                return getDataColumn(context, contentUri, null, null);
+//            }
+//            // MediaProvider
+//            else if (isMediaDocument(uri)) {
+//                final String docId = DocumentsContract.getDocumentId(uri);
+//                final String[] split = docId.split(":");
+//                final String type = split[0];
+//
+//                Uri contentUri = null;
+//                if ("image".equals(type)) {
+//                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//                } else if ("video".equals(type)) {
+//                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+//                } else if ("audio".equals(type)) {
+//                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+//                }
+//
+//                final String selection = "_id=?";
+//                final String[] selectionArgs = new String[]{split[1]};
+//
+//                return getDataColumn(context, contentUri, selection, selectionArgs);
+//            }
+//        }
+//        // MediaStore (and general)
+//        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+//            return getDataColumn(context, uri, null, null);
+//        }
+//        // File
+//        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+//            return uri.getPath();
+//        }
+        return null;
     }
 
 }

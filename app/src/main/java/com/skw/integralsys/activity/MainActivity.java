@@ -1,14 +1,18 @@
 package com.skw.integralsys.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,12 +36,14 @@ import com.skw.integralsys.popwindow.MainMoreWindow;
 import com.skw.integralsys.popwindow.OnWinMenuItemClickListener;
 import com.skw.integralsys.utils.DialogUtil;
 import com.skw.integralsys.utils.FileUtil;
+import com.skw.integralsys.utils.Utils;
 import com.skw.integralsys.view.MyRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.objectbox.Box;
@@ -67,6 +73,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private MainMoreWindow popWindow;
 
     private static final int WRITE_EXTERNAL_STORAGE_CODE = 100;
+    private static final int READ_EXTERNAL_STORAGE_CODE = 101;
+    private static final int CHOICE_FILE_CODE = 102;
+    private Uri choiceFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,6 +277,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case 1:
                 popWindow.dismiss();
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                //intent.setType(“image/*”);//选择图片
+                //intent.setType(“audio/*”); //选择音频
+                //intent.setType(“video/*”); //选择视频 （mp4 3gp 是android支持的视频格式）
+                //intent.setType(“video/*;image/*”);//同时选择视频和图片
+                intent.setType("application/x-msaccess");//无类型限制
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, CHOICE_FILE_CODE);
+                break;
+            case 2:
+                popWindow.dismiss();
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         DialogUtil.dialogOKorCancel(this, "提示", "打开权限", R.string.sOk, R.string.sCancel, new DialogInterface.OnClickListener() {
@@ -283,14 +303,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     } else {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_CODE);
                     }
-                }else {
+                } else {
                     LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在复制，请稍后");
-                    FileUtil.importDb(getApplicationContext());
+                    FileUtil.exportDb(getApplicationContext());
                     DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
+                    Toast.makeText(getApplicationContext(), "导出完成，文件夹名称为<zhongyouxiyingvip>", Toast.LENGTH_LONG).show();
                 }
-                break;
-            case 2:
-                popWindow.dismiss();
                 break;
         }
     }
@@ -357,14 +375,61 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //  permission has been granted, preview can be displayed
                 LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在复制，请稍后");
-                FileUtil.importDb(getApplicationContext());
+                FileUtil.exportDb(getApplicationContext());
                 DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
+                Toast.makeText(getApplicationContext(), "导出完成，文件夹名称为<zhongyouxiyingvip>", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "没有获取到写权限", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == READ_EXTERNAL_STORAGE_CODE) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在复制，请稍后");
+                FileUtil.importDb(getApplicationContext(), choiceFileUri);
+                DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
+                Toast.makeText(getApplicationContext(), "导入完成，请在所有文件导入后重新打开app查看", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(), "没有获取到写权限", Toast.LENGTH_LONG).show();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                choiceFileUri = data.getData();
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    DialogUtil.dialogOKorCancel(this, "提示", "打开权限", R.string.sOk, R.string.sCancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CODE);
+                                    break;
+                            }
+                        }
+                    });
+                } else {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CODE);
+                }
+            } else {
+                LoadingDialogFragment loadingDialogFragment = DialogUtil.dialogLoading(getSupportFragmentManager(), "正在复制，请稍后");
+                FileUtil.importDb(getApplicationContext(), data.getData());
+                DialogUtil.dialogLoadingDismiss(loadingDialogFragment);
+                Toast.makeText(getApplicationContext(), "导入完成，请在所有文件导入后重新打开app查看", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Utils.sysExit(getApplicationContext(), Calendar.getInstance().getTimeInMillis());
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

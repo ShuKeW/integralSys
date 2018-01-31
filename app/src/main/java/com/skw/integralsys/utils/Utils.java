@@ -2,9 +2,12 @@ package com.skw.integralsys.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * @创建人 weishukai
@@ -13,6 +16,8 @@ import android.os.Handler;
  */
 
 public class Utils {
+    private static long lastTime;
+
     public static void delayFinish(final Activity activity, long time) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -22,6 +27,18 @@ public class Utils {
                 activity.finish();
             }
         }, time);
+    }
+
+    public static void sysExit(Context context, long time) {
+        long value = time - lastTime;
+        Log.d("aa", time + " - " + lastTime + " = " + value);
+        if (lastTime != 0 && value / 1000 <= 2) {
+            lastTime = 0;
+            System.exit(0);
+        } else {
+            lastTime = time;
+            Toast.makeText(context, "再按一下退出", Toast.LENGTH_LONG).show();
+        }
     }
 
     public static boolean isGrantExternalRW(Activity activity) {
@@ -35,4 +52,6 @@ public class Utils {
         }
         return true;
     }
+
+
 }
